@@ -1,0 +1,171 @@
+server:
+  port: 8000
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: https://eureka.clouter.kr/eureka
+
+spring:
+  application:
+    name: apigateway-service
+  cloud:
+    gateway:
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: Spring Cloud Gateway Global Filter
+            preLogger: true
+            postLogger: true
+      routes:
+        # MEMBER-SERVICE routes
+        # 인증 인가
+        - id: member-service
+          uri: lb://MEMBER-SERVICE
+          predicates:
+            - Path=/member-service/v1/members/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/member-service/(?<segment>.*), /$\{segment}
+        # 광고주 회원가입
+        - id: member-service
+          uri: lb://MEMBER-SERVICE
+          predicates:
+            - Path=/member-service/v1/advertisers/signup
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/member-service/(?<segment>.*), /$\{segment}
+        # 클라우터 회원가입
+        - id: member-service
+          uri: lb://MEMBER-SERVICE
+          predicates:
+            - Path=/member-service/v1/clouters/signup
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/member-service/(?<segment>.*), /$\{segment}
+        # 인기있는 클라우터 top10
+        - id: member-service
+          uri: lb://MEMBER-SERVICE
+          predicates:
+            - Path=/member-service/v1/clouters/top10
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/member-service/(?<segment>.*), /$\{segment}
+        # 클라우터 검색 api
+        - id: member-service
+          uri: lb://MEMBER-SERVICE
+          predicates:
+            - Path=/member-service/v1/clouters/search**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/member-service/(?<segment>.*), /$\{segment}
+        # 디폴트 멤버 서비스 api 인증 적용
+        - id: member-service
+          uri: lb://MEMBER-SERVICE
+          predicates:
+            - Path=/member-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/member-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+        # ADVERTISEMENT-SERVICE route
+        # 인기있는 광고 top10 api
+        - id: advertisement-service
+          uri: lb://ADVERTISEMENT-SERVICE
+          predicates:
+            - Path=/advertisement-service/v1/advertisement/top10
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/advertisement-service/(?<segment>.*), /$\{segment}
+        # 광고 검색 api
+        - id: advertisement-service
+          uri: lb://ADVERTISEMENT-SERVICE
+          predicates:
+            - Path=/advertisement-service/v1/advertisements/search**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/advertisement-service/(?<segment>.*), /$\{segment}
+        # 광고 상세 조회 api
+        - id: advertisement-service
+          uri: lb://ADVERTISEMENT-SERVICE
+          predicates:
+            - Path=/advertisement-service/v1/advertisements/**
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/advertisement-service/(?<segment>.*), /$\{segment}
+        # 광고 서비스 api 디폴트 인증 적용
+        - id: advertisement-service
+          uri: lb://ADVERTISEMENT-SERVICE
+          predicates:
+            - Path=/advertisement-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/advertisement-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+        # POINT-SERVICE route
+        # 포인트 서비스 api 디폴트 인증 적용
+        - id: point-service
+          uri: lb://POINT-SERVICE
+          predicates:
+            - Path=/point-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/point-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+        # NOTIFICATION-SERVICE route
+        # 알림 보내기 api
+        - id: notification-service
+          uri: lb://NOTIFICATION-SERVICE
+          predicates:
+            - Path=/notification-service/v1/notifications
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/notification-service/(?<segment>.*), /$\{segment}
+        # 알림 서비스 api 디폴트 인증 적용
+        - id: notification-service
+          uri: lb://NOTIFICATION-SERVICE
+          predicates:
+            - Path=/notification-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/notification-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+        # IMAGE-SERVICE route
+        # 이미지 서비스 api 디폴트 인증 적용 X
+        - id: image-service
+          uri: lb://IMAGE-SERVICE
+          predicates:
+            - Path=/image-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/image-service/(?<segment>.*), /$\{segment}
+
+        # CONTRACT-SERVICE route
+        # 계약 서비스 api 디폴트 인증 적용
+        - id: contract-service
+          uri: lb://CONTRACT-SERVICE
+          predicates:
+            - Path=/contract-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/contract-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+        # CHAT-SERVICE route
+        # 채팅 서비스 api 디폴트 인증 적용
+        - id: chat-service
+          uri: lb://CHAT-SERVICE
+          predicates:
+            - Path=/chat-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/chat-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+jwt:
+  secret: VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4=VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4=

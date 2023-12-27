@@ -1,0 +1,53 @@
+server:
+  port: 8888
+
+spring:
+  config:
+    import: secret/application-secret.yml
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  application:
+    name: member-service
+  datasource:
+    url: jdbc:mariadb://3.38.213.43:3306/memberdb
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: zmffkdnxm409!
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+        format_sql: true
+    open-in-view: false
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  redis:
+    host: redis
+    port: 6379
+    password: BboBpf1zv}5.lE)a&C[5=L_{^xQ!Y.u#itKO.]5g5rmXC!,BGe
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
+eureka:
+  instance:
+    hostname: ${EUREKA_HOSTNAME:localhost}
+#    instance-id: ${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: https://eureka.clouter.kr/eureka
+
+jwt:
+  secret: VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4=VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4=
+  refresh-token-validity-in-seconds: 1209600 # 14일
+  access-token-validity-in-seconds: 43200 # 12시간
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+    use-root-path: true

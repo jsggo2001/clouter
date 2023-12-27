@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "487411690898",
+    "project_id": "clout-fcmtest",
+    "storage_bucket": "clout-fcmtest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487411690898:android:f49607819b488d7bda654b",
+        "android_client_info": {
+          "package_name": "com.mmm.clout"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9Ky02f3RxmDhmaN2EVcjqzG5mp95e9YQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

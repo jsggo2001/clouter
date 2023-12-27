@@ -1,0 +1,55 @@
+server:
+  port: 8899
+
+spring:
+  application:
+    name: notification-service
+  datasource:
+#    url: jdbc:mariadb://localhost:13306/test2
+#    driver-class-name: org.mariadb.jdbc.Driver
+#    username: root
+#    password: 1234
+    url: jdbc:mariadb://3.38.213.43:3306/notificationdb
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: zmffkdnxm409!
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  kafka:
+    producer:
+      bootstrap-servers: k9a409.p.ssafy.io:9092,k9a409.p.ssafy.io:9093,k9a409.p.ssafy.io:9094
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      bootstrap-servers: k9a409.p.ssafy.io:9092,k9a409.p.ssafy.io:9093,k9a409.p.ssafy.io:9094
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring:
+          deserializer:
+            key:
+              delegate:
+                class: org.apache.kafka.common.serialization.LongDeserializer
+            value:
+              delegate:
+                class: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: clout-consumer-test
+      auto-offset-reset: earliest
+eureka:
+  instance:
+    hostname: ${EUREKA_HOSTNAME:localhost} # 외부에서 접근 가능한 호스트 이름 또는 IP
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: https://eureka.clouter.kr/eureka
+message:
+  topic:
+    name: contract.topic.test
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+    use-root-path: true

@@ -1,0 +1,47 @@
+server:
+  port: 8899
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  application:
+    name: chat-service
+  datasource:
+    url: jdbc:mariadb://3.35.132.84:3306/chat
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: 1234
+  data:
+    mongodb:
+      uri: mongodb://test:1234@3.35.132.84:27017/test
+  jpa:
+    open-in-view: false
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  properties:
+    hibernate:
+      dialect: org.hibernate.dialect.MariaDBDialect
+      format_sql: true
+
+
+eureka:
+  instance:
+    hostname: ${EUREKA_HOSTNAME:localhost} # 외부에서 접근 가능한 호스트 이름 또는 IP
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: https://eureka.clouter.kr/eureka
+
+jwt:
+  secret: VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4=VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4=
+  refresh-token-validity-in-seconds: 1209600 # 14?
+  access-token-validity-in-seconds: 43200 # 12??
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+    use-root-path: true
